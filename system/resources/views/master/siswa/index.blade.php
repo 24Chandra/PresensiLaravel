@@ -10,7 +10,7 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Role</span> </h4>
+            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Data Siswa</span> </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
 
@@ -20,7 +20,7 @@
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="{{url('/')}}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <span class="breadcrumb-item active">Role</span>
+                <span class="breadcrumb-item active">Data Siswa</span>
             </div>
 
         </div>
@@ -39,7 +39,6 @@
                             <?php
                             if($all_access->where('name','Permission-Add')->count() > 0){
                                 ?>
-                            
                             <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-success">Tambah Data</button>
                             <?php } ?>
 							
@@ -125,7 +124,7 @@
                       <th scope="row">{{$i++}}</th>
                       <td>{{$d->Nis}}</td>
                       <td>{{$d->nama}}</td>
-                      <td>{{$d->kelas_id}}</td>
+                      <td>{{$d->nama_group_kelas}} | {{$d->kelas_name}}</td>
                       <td>{{$d->jenis_kelamin}}</td>
                       <td>{{$d->tempat_lahir}}, {{$d->tanggal_lahir}}</td>
                       <td>{{$d->agama}}</td>
@@ -179,7 +178,7 @@
     </div>
 </div>
 <!--End Modal -->
-<?php if($all_access->where('name','Permission-Add')->count() > 0){ ?>
+<?php if($all_access->where('name','Siswa-Add')->count() > 0){ ?>
     <div class="modal fade" id="addModal">
     <div class="modal-dialog">
     <div class="modal-content border-secondary">
@@ -190,66 +189,101 @@
         </button>
         </div>
         <div class="modal-body">
-            <form action=<?= url('permission/create'); ?> method="post">
+            <form action=<?= url('siswa/create'); ?> method="post">
             @csrf
             <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Nis</span>
                   </div>
-                  <input id="Nis" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nomer Induk Siswa">
+                  <input id="Nis" value="{{ old('Nis') }}" type="number" class="form-control @error('Nis') is-invalid @enderror" name="Nis" placeholder="Nomer Induk Siswa">
                 </div>
+            @error('Nis')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Nama</span>
                   </div>
-                  <input id="nama" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nama Siswa">
+                  <input id="nama" value="{{ old('nama') }}" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama Siswa">
                 </div>
+            @error('nama')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Kelas</span>
                   </div>
-                  <input id="Kelas" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Kelas">
+                  <select id="kelas_id" value="{{ old('kelas_id') }}" type="text" class="form-control @error('kelas_id') is-invalid @enderror" name="kelas_id" placeholder="kelas">
+                  <option>Pilih Kelas</option>
+                  @foreach($kelas as $kls)
+                  <option value="{{$kls->id_kelas}}">{{$kls->nama_group_kelas}} | {{$kls->kelas_name}} </option>
+                  @endforeach
+                  </select>
                 </div>
+            @error('kelas_id')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Jenis Kelamin</span>
-                  </div>
-                  <input id="jenis_kelamin" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Jenis Kelamin">
+                  </div>                  
+                  <select id="jenis_kelamin" value="{{ old('jenis_kelamin') }}" type="text" class="form-control @error('jenis_kelamin') is-invalid @enderror" name="jenis_kelamin" placeholder="Jenis Kelamin">
+                  <option value="laki-Laki">Laki-Laki</option>
+                  <option value="perempuan">Perempuan</option>
+                  </select>
                 </div>
+            @error('jenis_kelamin')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Agama</span>
                   </div>
-                  <input id="agama" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Agama">
+                  <select id="jenis_kelamin" value="{{ old('jenis_kelamin') }}" type="text" class="form-control @error('jenis_kelamin') is-invalid @enderror" name="agama" placeholder="Jenis Kelamin">
+                  <option value="Islam">Islam</option>
+                  <option value="Kristen">Kristen</option>
+                  <option value="Budha">Budha</option>
+                  <option value="Hindu">Hindu</option>
+                  <option value="Katolik">Katolik</option>
+                  </select>
                 </div>
+            @error('agama')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Tempat Lahir</span>
                   </div>
-                  <input id="tempat_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tempat Lahir">
+                  <input id="tempat_lahir" value="{{ old('tempat_lahir') }}" type="text" class="form-control @error('tempat_lahir') is-invalid @enderror" name="tempat_lahir" placeholder="Tempat Lahir">
                 </div>
+            @error('tempat_lahir')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Tanggal Lahir</span>
                   </div>
-                  <input id="tanggal_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tanggal Lahir">
+                  <input type="date" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" type="text" class="form-control @error('tanggal_lahir') is-invalid @enderror" name="tanggal_lahir" placeholder="Tanggal Lahir">
                 </div>
+            @error('tanggal_lahir')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Alamat</span>
                   </div>
-                    <textarea  id="alamat" class="form-control  @error('description') is-invalid @enderror" placeholder="Alamat" name="Alamat"></textarea>
+                    <textarea  id="alamat" value="{{ old('alamat') }}" class="form-control  @error('alamat') is-invalid @enderror" placeholder="Alamat" name="alamat"></textarea>
                 </div>
-                @error('display_name')
+                @error('alamat')
                     <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
                 @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Foto</span>
                   </div>
-                  <input type="text" id="foto" class="form-control  @error('access_name') is-invalid @enderror" name="access_name" placeholder="Foto">
+                  <input type="text" id="foto" value="{{ old('foto') }}" class="form-control  @error('foto') is-invalid @enderror" name="foto" placeholder="Foto">
                 </div>
-                @error('access_name')
+                @error('foto')
                     <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
                 @enderror
                 

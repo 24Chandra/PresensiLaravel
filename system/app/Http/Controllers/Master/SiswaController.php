@@ -29,9 +29,10 @@ class SiswaController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'Role-View')->count() > 0) {
+        if (!$access->where('name', 'Siswa-View')->count() > 0) {
             return view('errors.403');
         }
+        
 
          //Sorting Data
     $cari = Input::get('search');
@@ -41,24 +42,30 @@ class SiswaController extends Controller
     }
 
     if ($cari == null) {
-      $query = DB::table('siswa')->orderBy('Nis', 'desc')->paginate($rowpage);
+      $query = DB::table('siswa')->orderBy('Nis', 'desc')
+      ->join('kelas', 'siswa.kelas_id','=','kelas.id_kelas')
+      ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
+      ->paginate($rowpage);
     } else {
       $query = DB::table('siswa')->where('Nis', 'LIKE', '%' . $cari . '%')->orwhere('nama', 'LIKE', '%' . $cari . '%')->orderBy('Nis', 'desc')->paginate($rowpage);
     }
     $query->appends(['search' => $cari, 'sort' => $rowpage]);
 
-    return view('master.siswa.index')
+
+    $kelas = DB::table('kelas')
+    ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
+    ->get();
+
+    return view('master.siswa.index',compact('kelas'))
         ->with('rowpage', $rowpage)
         ->with('cari', $cari)
         ->with('data', $query)
         ->with('all_access',$access);
-
-    
-        
     }
 
-    public function create()
+    public function create(Request $req)    
     {
+
         $userid = Auth::user()->id;
         $access = DB::table('access_role_users')
             ->join('access_role_group', 'access_role_users.group_id', '=', 'access_role_group.group_id')
@@ -70,90 +77,54 @@ class SiswaController extends Controller
 
         if (!$access->where('name', 'Siswa-Add')->count() > 0) {
             return view('errors.403');
-        }
-        $RoleAccessName = DB::table('access_name')->get();
-        return view('master.siswa.create')->with('group', $RoleAccessName)->with('all_access', $access);
-    }
-
-
-    public function store(Request $req)
-    {
-        $userid = Auth::user()->id;
-        $access = DB::table('access_role_users')
-            ->join('access_role_group', 'access_role_users.group_id', '=', 'access_role_group.group_id')
-            ->join('access_role', 'access_role_group.group_id', '=', 'access_role.group_id')
-            ->join('access_name', 'access_role.access_id', '=', 'access_name.access_id')
-            ->where('access_role_users.users_id', $userid)
-            ->select('access_name.name')
-            ->get();
-
-        if (!$access->where('name', 'Role-Add')->count() > 0) {
-            return view('errors.403');
-        }
-
+        }$Nis = $req->Nis;
+        $nama = $req->nama;
+        $kelas_id = $req->kelas_id;
+        $jenis_kelamin = $req->jenis_kelamin;
+        $agama = $req->agama;
+        $alamat = $req->alamat;
+        $tanggal_lahir = $req->tanggal_lahir;
+        $tempat_lahir = $req->tempat_lahir;
+        $foto = $req->foto;
         $rules =  [
-            'role_name' => 'required'
-        ];
-        $customMessages = [
-            'role_name.required' => 'Group Name Tidak Boleh Kosong'
-        ];
-        $this->validate($req, $rules,$customMessages);
-
-
-        $name = $req->role_name;
-        $description = $req->description;
-        $selectedRoles = $req->selectedRoles;
-        $created_date = Date("Y-m-d h:i:s");
-        $created_by = Auth::user()->name;
-
-
+                     'Nis' => 'required',
+                     'nama' => 'required',
+                     'kelas_id' => 'required',
+                     'agama' => 'required',
+                     'alamat' => 'required',
+                     'tanggal_lahir' => 'required',
+                     'tempat_lahir' => 'required',
+                     'foto' => 'required',
+                 ];
+         $customMessages = [
+             'Nis.required' => 'Nama Tipe Sewa Wajib Diisi',
+             'nama.required' => 'Tipe Sewa ID Wajib Diisi',
+             'kelas_id.required' => 'kelas Wajib Diisi',
+             'agama.required' => 'agama Wajib Diisi',
+             'alamat.required' => 'alamat Wajib Diisi',
+             'tanggal_lahir.required' => 'tanggal lahir Wajib Diisi',
+             'tempat_lahir.required' => 'tempat lahir Wajib Diisi',
+             'foto.required' => 'foto lahir Wajib Diisi',
+         ];
+        $this->validate($req,$rules,$customMessages);
         $data = [
-            'name' => $name,
-            'description' => $description,
-            'created_date' => $created_date,
-            'created_by' => $created_by
+         'Nis' => $Nis,
+         'nama' => $nama,
+         'kelas_id' => $kelas_id,
+         'jenis_kelamin' => $jenis_kelamin,
+         'agama' => $agama,
+         'alamat' => $alamat,
+         'tanggal_lahir' => $tanggal_lahir,
+         'tempat_lahir' => $tempat_lahir,
+         'foto' => $foto
         ];
-        DB::table('access_role_group')->insert($data);
-        $id=DB::table('access_role_group')->orderby('group_id','desc')->first()->group_id;
 
-        // dd($id);
-        if($selectedRoles != null){
-            foreach($selectedRoles as $d){
-                DB::table('access_role')->insert(['group_id' => $id, 'access_id' => $d]);
-            }
-        }
-
-        Alert::success('Terimakasih Anda Berhasil Menambahkan Role','Berhasil');
-         return Redirect::back();
+    //    Proses
+    DB::table('siswa')->insert($data);
+    Alert::success('Menambahkan Data Siswa','Berhasil');
+    return Redirect::back();
     }
 
-
-    public function edit(Request $req)
-    {
-        $userid = Auth::user()->id;
-        $access = DB::table('access_role_users')
-            ->join('access_role_group', 'access_role_users.group_id', '=', 'access_role_group.group_id')
-            ->join('access_role', 'access_role_group.group_id', '=', 'access_role.group_id')
-            ->join('access_name', 'access_role.access_id', '=', 'access_name.access_id')
-            ->where('access_role_users.users_id', $userid)
-            ->select('access_name.name')
-            ->get();
-
-        if (!$access->where('name', 'Role-Edit')->count() > 0) {
-            return view('errors.403');
-        }
-
-
-
-        $id = $req->id;
-        $UsedRoles = DB::table('access_role')->where('group_id', $id)->get();
-        $Group = DB::table('access_role_group')->where('group_id', $id)->first();
-        $RoleList = DB::table('access_name')->get();
-        return view('backend.role.edit', compact('rusun','Rusun_Id'))
-        ->with('RoleList', $RoleList)
-        ->with('group', $Group)
-        ->with('UsedRoles', $UsedRoles);
-    }
     public function update(Request $req)
     {
         $userid = Auth::user()->id;
@@ -165,56 +136,26 @@ class SiswaController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'Role-Edit')->count() > 0) {
+        if (!$access->where('name', 'TipeSewa-Edit')->count() > 0) {
             return view('errors.403');
         }
 
-        $rules =  [
-            'role_name' => 'required'
-        ];
-        $customMessages = [
-            'role_name.required' => 'Group Name Tidak Boleh Kosong'
-        ];
-        $this->validate($req, $rules,$customMessages);
-
-
-        $name = $req->role_name;
-        $description = $req->description;
-        $selectedRoles = $req->selectedRoles;
-        $created_date = Date("Y-m-d h:i:s");
-        $created_by = Auth::user()->name;
-
+        $Nama_Tipe_Sewa = $req->Nama_Tipe_Sewa;
+        $Tipe_Sewa_Id = $req->Tipe_Sewa_Id;
+        $Singkatan = $req->Singkatan;
+       
         $data = [
-            'name' => $name,
-            'description' =>$description,
-            'modified_by' => $created_by,
-            'modified_date' => $created_date
-        ];
+            'Nama_Tipe_Sewa' => $Nama_Tipe_Sewa,
+            'Singkatan' => $Singkatan
+           ];
 
-
-        // dd($selectedRoles);
-
-        try{
-            $u =  DB::table('access_role_group')->where('group_id', $req->group_id)->update($data);
-            DB::table('access_role')->where(['group_id' => $req->group_id])->delete();
-            if($selectedRoles != null){
-                foreach($selectedRoles as $d){
-                    DB::table('access_role')->insert(['group_id' => $req->group_id, 'access_id' => $d]);
-                }
-            }
-
-            Alert::success('Terimakasih Anda Berhasil Mengubah Role','Berhasil');
-             return Redirect::back();
-        }catch (\Exception $e) {
-            Alert::error('Terjadi Kesalahan saat menyimpan data ', 'Gagal !')->persistent('Close');
-            return Redirect::back()->withErrors('Gagal Menyimpan Perubahan');
-        }
+    //    Proses
+    DB::table('tipe_sewa')->where('Tipe_Sewa_Id', $req->id)->update($data);
+    Alert::success('Mengubah Tipe Sewa','Berhasil');
+    return Redirect::back();
     }
 
-
-
-
-    public function delete(Request $request)
+    public function delete(Request $req)
     {
         $userid = Auth::user()->id;
         $access = DB::table('access_role_users')
@@ -225,15 +166,13 @@ class SiswaController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'Role-Delete')->count() > 0) {
+        if (!$access->where('name', 'TipeSewa-Delete')->count() > 0) {
             return view('errors.403');
         }
 
-        $id = $request->id;
-        DB::table('access_role')->where('group_id', $id)->delete();
-        DB::table('access_role_group')->where('group_id', $id)->delete();
-        Alert::success('Berhasil Menghapus data', 'Berhasil !');
+        DB::table('tipe_sewa')->where('Tipe_Sewa_Id', $req->id)->delete();
+        Alert::success('Terimakasih Anda Berhasil Menghapus Tipe Sewa','Berhasil');
         return Redirect::back();
-    }
+}
 
 }

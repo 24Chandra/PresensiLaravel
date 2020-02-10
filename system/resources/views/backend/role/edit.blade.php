@@ -107,7 +107,13 @@
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','User-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','User-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','User-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','User-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                             </tr>
-                            
+                            <tr>
+                                <td>Siswa</td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-Add')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-Add')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                            </tr>
                         </tbody>
                     </table>
                         </div>

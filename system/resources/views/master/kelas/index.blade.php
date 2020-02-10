@@ -105,6 +105,7 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Tahun Ajaran</th>
+                      <th scope="col">Group Kelas</th>
                       <th scope="col">Kelas</th>
                       <th class="text-center" scope="col"><i class="fa fa-cogs"></i></th>
                     </tr>
@@ -119,6 +120,7 @@
                     <tr>
                       <th scope="row">{{$i++}}</th>
                       <td>{{$d->tahun_ajaran }}</td>
+                      <td>{{$d->group_kelas_id }}</td>
                       <td>{{$d->kelas_name}}</td>
                       <td>
                       <?php if($all_access->where('name','Role-Edit')->count() > 0){ ?>
@@ -135,19 +137,6 @@
                   </tbody>
                 </table>
              </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
                 <div class="card-footer">
                 <div class="row">
