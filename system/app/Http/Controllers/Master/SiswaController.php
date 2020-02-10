@@ -47,7 +47,10 @@ class SiswaController extends Controller
       ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
       ->paginate($rowpage);
     } else {
-      $query = DB::table('siswa')->where('Nis', 'LIKE', '%' . $cari . '%')->orwhere('nama', 'LIKE', '%' . $cari . '%')->orderBy('Nis', 'desc')->paginate($rowpage);
+      $query = DB::table('siswa')
+      ->join('kelas', 'siswa.kelas_id','=','kelas.id_kelas')
+      ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
+      ->where('Nis', 'LIKE', '%' . $cari . '%')->orwhere('nama', 'LIKE', '%' . $cari . '%')->orderBy('Nis', 'desc')->paginate($rowpage);
     }
     $query->appends(['search' => $cari, 'sort' => $rowpage]);
 
@@ -136,22 +139,39 @@ class SiswaController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'TipeSewa-Edit')->count() > 0) {
+        if (!$access->where('name', 'Siswa-Edit')->count() > 0) {
             return view('errors.403');
         }
 
-        $Nama_Tipe_Sewa = $req->Nama_Tipe_Sewa;
-        $Tipe_Sewa_Id = $req->Tipe_Sewa_Id;
-        $Singkatan = $req->Singkatan;
-       
+        $Nis = $req->id;
+        $nama = $req->nama;
+        $kelas_id = $req->kelas_id;
+        $jenis_kelamin = $req->jenis_kelamin;
+        $agama = $req->agama;
+        $alamat = $req->alamat;
+        $tanggal_lahir = $req->tanggal_lahir;
+        $tempat_lahir = $req->tempat_lahir;
+        $foto = $req->foto;
         $data = [
-            'Nama_Tipe_Sewa' => $Nama_Tipe_Sewa,
-            'Singkatan' => $Singkatan
+            'nama' => $nama,
+             'kelas_id' => $kelas_id,
+            'jenis_kelamin' => $jenis_kelamin,
+            'agama' => $agama,
+            'alamat' => $alamat,
+            'tanggal_lahir' => $tanggal_lahir,
+            'tempat_lahir' => $tempat_lahir,
+            'foto' => $foto
            ];
 
+            // Chek data
+            // dd($data);
+            // chek all data
+            // dd($req->all());
+
     //    Proses
-    DB::table('tipe_sewa')->where('Tipe_Sewa_Id', $req->id)->update($data);
-    Alert::success('Mengubah Tipe Sewa','Berhasil');
+    // DB::table('siswa')->where('Nis', $Nis)->update($data);
+    DB::table('siswa')->where('Nis', $Nis)->update($data);
+    Alert::success('Mengubah data Siswa','Berhasil');
     return Redirect::back();
     }
 
@@ -166,12 +186,12 @@ class SiswaController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'TipeSewa-Delete')->count() > 0) {
+        if (!$access->where('name', 'Siswa-Delete')->count() > 0) {
             return view('errors.403');
         }
 
-        DB::table('tipe_sewa')->where('Tipe_Sewa_Id', $req->id)->delete();
-        Alert::success('Terimakasih Anda Berhasil Menghapus Tipe Sewa','Berhasil');
+        DB::table('siswa')->where('Nis', $req->id)->delete();
+        Alert::success('Terimakasih Anda Berhasil Menghapus Data SIswa','Berhasil');
         return Redirect::back();
 }
 

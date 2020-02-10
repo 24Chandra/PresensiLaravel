@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Feb 2020 pada 03.59
+-- Waktu pembuatan: 10 Feb 2020 pada 09.35
 -- Versi server: 10.1.31-MariaDB
 -- Versi PHP: 7.2.4
 
@@ -85,6 +85,7 @@ CREATE TABLE `access_role` (
 --
 
 INSERT INTO `access_role` (`group_id`, `access_id`) VALUES
+(1, 109),
 (1, 8),
 (1, 7),
 (1, 6),
@@ -97,7 +98,9 @@ INSERT INTO `access_role` (`group_id`, `access_id`) VALUES
 (1, 11),
 (1, 10),
 (1, 9),
-(1, 109);
+(1, 110),
+(1, 111),
+(1, 112);
 
 -- --------------------------------------------------------
 
@@ -120,7 +123,7 @@ CREATE TABLE `access_role_group` (
 --
 
 INSERT INTO `access_role_group` (`group_id`, `name`, `description`, `created_by`, `created_date`, `modified_by`, `modified_date`) VALUES
-(1, 'Super Administrator', 'Role Group Untuk Admin', 'Inject', '2019-10-24 05:23:00', 'Super Administrator', '2020-01-27 18:24:47');
+(1, 'Super Administrator', 'Role Group Untuk Admin', 'Inject', '2019-10-24 05:23:00', 'Super Administrator', '2020-02-07 21:58:46');
 
 -- --------------------------------------------------------
 
@@ -161,9 +164,9 @@ CREATE TABLE `group_kelas` (
 --
 
 INSERT INTO `group_kelas` (`group_kelas_id`, `nama_group_kelas`) VALUES
-(1, '2010'),
-(2, '2011'),
-(3, '2012');
+(1, 'X'),
+(2, 'XI'),
+(3, 'XII');
 
 -- --------------------------------------------------------
 
@@ -198,6 +201,7 @@ INSERT INTO `guru` (`id_guru`, `NIGN`, `nama`, `kelamin`, `tempat_lahir`, `tangg
 
 CREATE TABLE `kelas` (
   `id_kelas` int(11) NOT NULL,
+  `group_kelas_id` int(11) NOT NULL,
   `tahun_ajaran` date NOT NULL,
   `kelas_name` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -206,9 +210,9 @@ CREATE TABLE `kelas` (
 -- Dumping data untuk tabel `kelas`
 --
 
-INSERT INTO `kelas` (`id_kelas`, `tahun_ajaran`, `kelas_name`) VALUES
-(1, '2020-01-01', 'A'),
-(2, '2020-01-01', 'B');
+INSERT INTO `kelas` (`id_kelas`, `group_kelas_id`, `tahun_ajaran`, `kelas_name`) VALUES
+(1, 1, '2020-01-01', 'A'),
+(2, 1, '2020-01-01', 'B');
 
 -- --------------------------------------------------------
 
@@ -220,7 +224,7 @@ CREATE TABLE `siswa` (
   `Nis` int(11) NOT NULL,
   `nama` varchar(30) NOT NULL,
   `kelas_id` int(11) NOT NULL,
-  `jenis_kelamin` varchar(20) NOT NULL,
+  `jenis_kelamin` enum('laki-laki','perempuan') NOT NULL,
   `agama` varchar(20) NOT NULL,
   `alamat` varchar(100) NOT NULL,
   `tanggal_lahir` date NOT NULL,
@@ -233,7 +237,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`Nis`, `nama`, `kelas_id`, `jenis_kelamin`, `agama`, `alamat`, `tanggal_lahir`, `tempat_lahir`, `foto`) VALUES
-(2013014002, 'Chandra Susilo Subagyo', 1, 'Laki Bro', 'Islam', 'Patik, Pulung, POnonorogo, Jawa Timur, Indonesia, Bumi', '1996-11-24', 'Bumi', 'defoult.jpg');
+(2234234, 'asdasdasfff', 1, 'perempuan', 'Kristen', 'dasdassada', '2016-06-13', 'asdasd', 'sadasdad'),
+(2013014002, 'Chandra Susilo Subagyo', 2, 'laki-laki', 'Islam', 'Patik, Pulung, Pononorogo, Jawa Timur, Indonesia, Bumi', '1996-11-24', 'Ponorogo', 'defoult.jpg');
 
 -- --------------------------------------------------------
 
