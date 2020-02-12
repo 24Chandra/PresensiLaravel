@@ -10,22 +10,17 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Role</span> </h4>
+            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Guru</span> </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
-
     </div>
-
     <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="{{url('/')}}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <span class="breadcrumb-item active">Role</span>
+                <span class="breadcrumb-item active">Guru</span>
             </div>
-
         </div>
-
-        
     </div>
 </div>
 <!-- /page header -->
@@ -37,7 +32,7 @@
 						<h5 class="card-title">Master Guru</h5>
 						<div class="header-elements">
                             <?php
-                            if($all_access->where('name','Permission-Add')->count() > 0){
+                            if($all_access->where('name','Guru-Add')->count() > 0){
                                 ?>
                             
                             <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-success">Tambah Data</button>
@@ -131,13 +126,13 @@
                       <td>{{$d->NUPTK}}</td>
                       <td>{{$d->NPSN}}</td>
                       <td>
-                      <?php if($all_access->where('name','Role-Edit')->count() > 0){ ?>
-                      <a href="{{url('role/edit/'.$d->id_guru)}}" class="btn btn-info btn-xs waves-effect waves-light"><i class="fa fa-edit"></i> Edit</a>
+                      <?php if($all_access->where('name','Guru-Edit')->count() > 0){ ?>
+                      <a href="{{url('role/edit/'.$d->NIGN)}}" class="btn btn-info btn-xs waves-effect waves-light"><i class="fa fa-edit"></i> Edit</a>
                       <?php } ?>
                       <?php
-                      if($d->id_guru != 1){
-                      if($all_access->where('name','Role-Delete')->count() > 0){ ?>
-                      <a href="<?= url('role/delete/'.$d->id_guru);?>" class="btn btn-danger btn-xs waves-effect waves-light"><i class="fa fa-trash"></i> Delete</a>
+                      if($d->NIGN != 1){
+                      if($all_access->where('name','Guru-Delete')->count() > 0){ ?>
+                      <a href="<?= url('role/delete/'.$d->NIGN);?>" class="btn btn-danger btn-xs waves-effect waves-light"><i class="fa fa-trash"></i> Delete</a>
                       <?php } } ?>
                       </td>
                     </tr>
@@ -179,7 +174,7 @@
     </div>
 </div>
 <!--End Modal -->
-<?php if($all_access->where('name','Permission-Add')->count() > 0){ ?>
+<?php if($all_access->where('name','Guru-Add')->count() > 0){ ?>
     <div class="modal fade" id="addModal">
     <div class="modal-dialog">
     <div class="modal-content border-secondary">
@@ -190,60 +185,81 @@
         </button>
         </div>
         <div class="modal-body">
-            <form action=<?= url('permission/create'); ?> method="post">
+            <form action=<?= url('guru/create'); ?> method="post">
             @csrf
             <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">NIGN</span>
                   </div>
-                  <input id="Nis" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nomer Induk Siswa">
+                  <input id="NIGN" type="text" class="form-control @error('NIGN') is-invalid @enderror" name="NIGN" placeholder="Nomer Induk Guru Nasional">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Nama</span>
                   </div>
-                  <input id="nama" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nama Siswa">
+                  <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama Guru">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Jenis Kelamin</span>
-                  </div>
-                  <input id="jenis_kelamin" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Jenis Kelamin">
+                  </div>                  
+                  <select id="kelamin"  type="text" class="form-control @error('kelamin') is-invalid @enderror" name="kelamin" placeholder="Jenis Kelamin">
+                  <option value="laki-Laki">Laki-Laki</option>
+                  <option value="perempuan">Perempuan</option>
+                  </select>
                 </div>
+            @error('nama')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Agama</span>
+                  </div>
+                  <select type="text" class="form-control @error('agama') is-invalid @enderror" name="agama" placeholder="Jenis Kelamin">
+                  <option value="Islam">Islam</option>
+                  <option value="Kristen">Kristen</option>
+                  <option value="Budha">Budha</option>
+                  <option value="Hindu">Hindu</option>
+                  <option value="Katolik">Katolik</option>
+                  </select>
+                </div>
+            @error('agama')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Tempat Lahir</span>
                   </div>
-                  <input id="tempat_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tempat Lahir">
+                  <input id="tempat_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="tempat_lahir" placeholder="Tempat Lahir">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Tanggal Lahir</span>
                   </div>
-                  <input id="tanggal_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tanggal Lahir">
+                  <input id="tanggal_lahir" type="date" class="form-control @error('display_name') is-invalid @enderror" name="tanggal_lahir" placeholder="Tanggal Lahir">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">NUPTK</span>
                   </div>
-                  <input id="tanggal_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nomor Unik Pendidik dan Tenaga Kependidikan">
+                  <input id="NUPTK" type="number" class="form-control @error('display_name') is-invalid @enderror" name="NUPTK" placeholder="Nomor Unik Pendidik dan Tenaga Kependidikan">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">NPSN</span>
                   </div>
-                  <input id="tanggal_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nomor Pokok Sekolah Nasional">
+                  <input id="NPSN" type="number" class="form-control @error('display_name') is-invalid @enderror" name="NPSN" placeholder="Nomor Pokok Sekolah Nasional">
                 </div>
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Alamat</span>
                   </div>
-                    <textarea  id="alamat" class="form-control  @error('description') is-invalid @enderror" placeholder="Alamat" name="Alamat"></textarea>
+                    <textarea  id="alamat" class="form-control  @error('description') is-invalid @enderror" placeholder="Alamat" name="alamat"></textarea>
                 </div>
-                @error('display_name')
+                @error('nama')
                     <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
                 @enderror
-                @error('access_name')
+                @error('NIGN')
                     <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
                 @enderror
                 

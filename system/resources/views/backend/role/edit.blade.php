@@ -114,6 +114,13 @@
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                             </tr>
+                            <tr>
+                                <td>Guru</td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-Add')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-Add')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                            </tr>
                         </tbody>
                     </table>
                         </div>

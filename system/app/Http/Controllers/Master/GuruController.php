@@ -41,9 +41,9 @@ class GuruController extends Controller
     }
 
     if ($cari == null) {
-      $query = DB::table('guru')->orderBy('id_guru', 'desc')->paginate($rowpage);
+      $query = DB::table('guru')->orderBy('NIGN', 'desc')->paginate($rowpage);
     } else {
-      $query = DB::table('guru')->where('id_guru', 'LIKE', '%' . $cari . '%')->orwhere('nama', 'LIKE', '%' . $cari . '%')->orderBy('id_guru', 'desc')->paginate($rowpage);
+      $query = DB::table('guru')->where('NIGN', 'LIKE', '%' . $cari . '%')->orwhere('nama', 'LIKE', '%' . $cari . '%')->orderBy('NIGN', 'desc')->paginate($rowpage);
     }
     $query->appends(['search' => $cari, 'sort' => $rowpage]);
 
@@ -57,7 +57,7 @@ class GuruController extends Controller
         
     }
 
-    public function create()
+    public function create(Request $req)
     {
         $userid = Auth::user()->id;
         $access = DB::table('access_role_users')
@@ -68,12 +68,52 @@ class GuruController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'guru-Add')->count() > 0) {
-            return view('errors.403');
+            if (!$access->where('name', 'Guru-Add')->count() > 0) {
+                return view('errors.403');
+            }$NIGN = $req->NIGN;
+            $nama = $req->nama;
+            $kelas_id = $req->kelas_id;
+            $kelamin = $req->kelamin;
+            $agama = $req->agama;
+            $alamat = $req->alamat;
+            $tanggal_lahir = $req->tanggal_lahir;
+            $tempat_lahir = $req->tempat_lahir;
+            $NUPTK = $req->NUPTK;
+            $NPSN = $req->NPSN;
+            $rules =  [
+                         'NIGN' => 'required',
+                         'nama' => 'required',
+                         'agama' => 'required',
+                         'alamat' => 'required',
+                         'tanggal_lahir' => 'required',
+                         'tempat_lahir' => 'required',
+                     ];
+             $customMessages = [
+                 'NIGN.required' => 'Nama Tipe Sewa Wajib Diisi',
+                 'nama.required' => 'Tipe Sewa ID Wajib Diisi',
+                 'agama.required' => 'agama Wajib Diisi',
+                 'alamat.required' => 'alamat Wajib Diisi',
+                 'tanggal_lahir.required' => 'tanggal lahir Wajib Diisi',
+                 'tempat_lahir.required' => 'tempat lahir Wajib Diisi',
+             ];
+            $this->validate($req,$rules,$customMessages);
+            $data = [
+             'NIGN' => $NIGN,
+             'nama' => $nama,
+             'kelamin' => $kelamin,
+             'agama' => $agama,
+             'alamat' => $alamat,
+             'tanggal_lahir' => $tanggal_lahir,
+             'tempat_lahir' => $tempat_lahir,
+             'NUPTK' => $NUPTK,
+             'NPSN' => $NPSN,
+            ];
+    
+        //    Proses
+        DB::table('guru')->insert($data);
+        Alert::success('Menambahkan Data Guru','Berhasil');
+        return Redirect::back();
         }
-        $RoleAccessName = DB::table('access_name')->get();
-        return view('master.guru.create')->with('group', $RoleAccessName)->with('all_access', $access);
-    }
 
 
     public function store(Request $req)

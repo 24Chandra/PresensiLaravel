@@ -49,23 +49,13 @@ Route::group(['prefix' => '/siswa'], function()
   Route::get('/delete/{id}', 'Master\\SiswaController@delete');
 });
 
-// Route::group(['prefix' => '/siswa'], function()
-// {
-//   Route::get('/', 'SiswaController@index')->name('Siswa');
-//   Route::post('/create', 'SiswaController@create')->name('Siswa');
-//   Route::post('/update', 'SiswaController@update')->name('Siswa.Update');
-//   Route::get('/delete/{Nis}', 'SiswaController@delete');
-// });
-
 Route::group(['prefix' => '/guru'], function()
 {
   Route::get('/', 'Master\\GuruController@index')->name('Guru');
-  Route::get('/create', 'Master\\GuruController@create')->name('Guru');
-  Route::post('/store', 'Master\\GuruController@store')->name('Guru.Simpan');
-  Route::get('/edit/{id}', 'Master\\GuruController@edit')->name('Guru');
+  Route::post('/create', 'Master\\GuruController@create')->name('Guru');
   Route::post('/update', 'Master\\GuruController@update')->name('Guru.Update');
   Route::get('/delete/{id}', 'Master\\GuruController@delete');
-});
+ });
 
 Route::group(['prefix' => '/kelas'], function()
 {
