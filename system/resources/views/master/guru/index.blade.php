@@ -239,7 +239,7 @@
                                     @error('alamat')
                                       <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
                                     @enderror
-
+                            </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-inverse-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                             <button type="submit" class="btn btn-secondary"><i class="fa fa-check-square-o"></i> Save changes</button>
@@ -251,7 +251,7 @@
                     <!--End Modal -->
                       <?php } ?>
                       <?php if($d->NIGN != 1){
-                      if($all_access->where('name','Siswa-Delete')->count() > 0){ ?>
+                      if($all_access->where('name','Guru-Delete')->count() > 0){ ?>
                       <a href="<?= url('guru/delete/'.$d->NIGN);?>" class="btn btn-danger btn-xs waves-effect waves-light"><i class="fa fa-trash"></i> Delete</a>
                       <?php } } ?>
                       </td>

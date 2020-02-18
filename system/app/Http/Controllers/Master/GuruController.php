@@ -178,10 +178,11 @@ class GuruController extends Controller
                 return view('errors.403');
             }
     
-            DB::table('NIGN')->where('NIGN', $req->id)->delete();
+            DB::table('guru')->where('NIGN', $req->id)->delete();
             Alert::success('Terimakasih Anda Berhasil Menghapus Data Guru','Berhasil');
             return Redirect::back();
     }
+    
     
     }
     

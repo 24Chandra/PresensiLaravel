@@ -251,7 +251,8 @@
                             </form>
                         </div>
                         </div>
-                    </div><!--End Modal -->
+                    </div>
+                    <!--End Modal -->
                       <?php } ?>
                       <?php if($d->Nis != 1){
                       if($all_access->where('name','Siswa-Delete')->count() > 0){ ?>

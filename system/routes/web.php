@@ -57,12 +57,10 @@ Route::group(['prefix' => '/guru'], function()
   Route::get('/delete/{id}', 'Master\\GuruController@delete');
  });
 
-Route::group(['prefix' => '/kelas'], function()
-{
-  Route::get('/', 'Master\\KelasController@index')->name('Kelas');
-  Route::get('/create', 'Master\\KelasController@create')->name('Kelas');
-  Route::post('/store', 'Master\\KelasController@store')->name('Kelas.Simpan');
-  Route::get('/edit/{id}', 'Master\\KelasController@edit')->name('Kelas');
-  Route::post('/update', 'Master\\KelasController@update')->name('Kelas.Update');
-  Route::get('/delete/{id}', 'Master\\KelasController@delete');
-});
+ Route::group(['prefix' => '/kelas'], function()
+ {
+   Route::get('/', 'Master\\KelasController@index')->name('Kelas');
+   Route::post('/create', 'Master\\KelasController@create')->name('Kelas');
+   Route::post('/update', 'Master\\KelasController@update')->name('Kelas.Update');
+   Route::get('/delete/{id}', 'Master\\KelasController@delete');
+  });
