@@ -105,6 +105,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Nis</th>
                       <th scope="col">Nama</th>
+                      <th scope="col">Tahun Angkatan</th>
                       <th scope="col">Kelas</th>
                       <th scope="col">Jenis Kelamin</th>
                       <th scope="col">TTL</th>
@@ -124,6 +125,7 @@
                       <th scope="row">{{$i++}}</th>
                       <td>{{$d->Nis}}</td>
                       <td>{{$d->nama}}</td>
+                      <td>{{$d->tahun}}</td>
                       <td>{{$d->nama_group_kelas}} | {{$d->kelas_name}}</td>
                       <td>{{$d->jenis_kelamin}}</td>
                       <td>{{$d->tempat_lahir}}, {{$d->tanggal_lahir}}</td>

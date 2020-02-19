@@ -45,6 +45,7 @@ class SiswaController extends Controller
       $query = DB::table('siswa')->orderBy('Nis', 'desc')
       ->join('kelas', 'siswa.kelas_id','=','kelas.id_kelas')
       ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
+      ->join('tahunajaran', 'kelas.tahunajaran_id','=','tahunajaran.tahun_id')
       ->paginate($rowpage);
     } else {
       $query = DB::table('siswa')
@@ -57,7 +58,10 @@ class SiswaController extends Controller
 
     $kelas = DB::table('kelas')
     ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
+    ->join('tahunajaran', 'kelas.tahunajaran_id','=','tahunajaran.tahun_id')
     ->get();
+    //dd($kelas);
+    
 
     return view('master.siswa.index',compact('kelas'))
         ->with('rowpage', $rowpage)

@@ -119,8 +119,8 @@
                 ?>
                     <tr>
                       <th scope="row">{{$i++}}</th>
-                      <td>{{$d->tahun_ajaran }}</td>
-                      <td>{{$d->group_kelas_id }}</td>
+                      <td>{{$d->tahun }}</td>
+                      <td>{{$d->nama_group_kelas}}</td>
                       <td>{{$d->kelas_name}}</td>
                       <td>
                       <?php if($all_access->where('name','Role-Edit')->count() > 0){ ?>
@@ -158,7 +158,7 @@
     </div>
 </div>
 <!--End Modal -->
-<?php if($all_access->where('name','Permission-Add')->count() > 0){ ?>
+<?php if($all_access->where('name','Kelas-Add')->count() > 0){ ?>
     <div class="modal fade" id="addModal">
     <div class="modal-dialog">
     <div class="modal-content border-secondary">
@@ -169,17 +169,23 @@
         </button>
         </div>
         <div class="modal-body">
-            <form action=<?= url('permission/create'); ?> method="post">
+            <form action=<?= url('kelas/create'); ?> method="post">
             @csrf
             <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Nis</span>
-                  </div>
-                  <input id="Nis" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nomer Induk Siswa">
-                </div>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Kelas</span>
+                                    </div>
+                                    <select id="kelas_id" value="{{ old('kelas_id') }}" type="text" class="form-control @error('kelas_id') is-invalid @enderror" name="kelas_id" placeholder="kelas">
+                                    <option>Pilih Kelas</option>
+                                    @foreach($tahun as $kls)
+                                    <option <?php if ($kls->tahun_id ){echo 'selected';} ?>  value="{{$kls->tahun_id}}">{{$kls->tahun}} </option>
+                                    @endforeach
+                                    </select>   
+                                    </div>
+
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text">Nama</span>
+                    <span class="input-group-text">Group Kelas</span>
                   </div>
                   <input id="nama" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Nama Siswa">
                 </div>
@@ -188,45 +194,6 @@
                     <span class="input-group-text">Kelas</span>
                   </div>
                   <input id="Kelas" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Kelas">
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Jenis Kelamin</span>
-                  </div>
-                  <input id="jenis_kelamin" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Jenis Kelamin">
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Agama</span>
-                  </div>
-                  <input id="agama" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Agama">
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Tempat Lahir</span>
-                  </div>
-                  <input id="tempat_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tempat Lahir">
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Tanggal Lahir</span>
-                  </div>
-                  <input id="tanggal_lahir" type="text" class="form-control @error('display_name') is-invalid @enderror" name="display_name" placeholder="Tanggal Lahir">
-                </div>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Alamat</span>
-                  </div>
-                    <textarea  id="alamat" class="form-control  @error('description') is-invalid @enderror" placeholder="Alamat" name="Alamat"></textarea>
-                </div>
-                @error('display_name')
-                    <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
-                @enderror
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Foto</span>
-                  </div>
-                  <input type="text" id="foto" class="form-control  @error('access_name') is-invalid @enderror" name="access_name" placeholder="Foto">
                 </div>
                 @error('access_name')
                     <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
