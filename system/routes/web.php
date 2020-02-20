@@ -64,3 +64,11 @@ Route::group(['prefix' => '/guru'], function()
    Route::post('/update', 'Master\\KelasController@update')->name('Kelas.Update');
    Route::get('/delete/{id}', 'Master\\KelasController@delete');
   });
+
+  Route::group(['prefix' => '/tahun'], function()
+  {
+    Route::get('/', 'Master\\TahunController@index')->name('Tahun');
+    Route::post('/create', 'Master\\TahunController@create')->name('Tahun');
+    Route::post('/update', 'Master\\TahunController@update')->name('Tahun.Update');
+    Route::get('/delete/{id}', 'Master\\TahunController@delete');
+   });

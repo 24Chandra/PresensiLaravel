@@ -10,7 +10,7 @@
 <div class="page-header page-header-light">
     <div class="page-header-content header-elements-md-inline">
         <div class="page-title d-flex">
-            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Role</span> </h4>
+            <h4><i class="icon-lock mr-2"></i> <span class="font-weight-semibold">Tahun</span> </h4>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
 
@@ -20,7 +20,7 @@
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="{{url('/')}}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <span class="breadcrumb-item active">Kelas</span>
+                <span class="breadcrumb-item active">Role</span>
             </div>
 
         </div>
@@ -34,10 +34,10 @@
         <div class="col-md-12">
             <div class="card">
             <div class="card-header header-elements-inline">
-						<h5 class="card-title">Master Kelas</h5>
+						<h5 class="card-title">Master Tahun</h5>
 						<div class="header-elements">
                             <?php
-                            if($all_access->where('name','Kelas-Add')->count() > 0){
+                            if($all_access->where('name','Tahun-Add')->count() > 0){
                                 ?>
                             
                             <button type="button" data-toggle="modal" data-target="#addModal" class="btn btn-success">Tambah Data</button>
@@ -104,9 +104,7 @@
                   <thead class="thead-secondary shadow-secondary">
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Tahun Ajaran</th>
-                      <th scope="col">Group Kelas</th>
-                      <th scope="col">Kelas</th>
+                      <th scope="col">Tahun</th>
                       <th class="text-center" scope="col"><i class="fa fa-cogs"></i></th>
                     </tr>
                   </thead>
@@ -120,14 +118,12 @@
                     <tr>
                       <th scope="row">{{$i++}}</th>
                       <td>{{$d->tahun }}</td>
-                      <td>{{$d->nama_group_kelas}}</td>
-                      <td>{{$d->kelas_name}}</td>
                       <td width="20%">
                       
-                      <?php if($all_access->where('name','Kelas-Edit')->count() > 0){ ?>
-                      <button type="button" data-toggle="modal" data-target="#edit{{$d->id_kelas}}" class="btn btn-warning btn-xs waves-effect waves-light"><i class="fa fa-edit"></i> Edit</button>
+                      <?php if($all_access->where('name','Tahun-Edit')->count() > 0){ ?>
+                      <button type="button" data-toggle="modal" data-target="#edit{{$d->tahun_id}}" class="btn btn-warning btn-xs waves-effect waves-light"><i class="fa fa-edit"></i> Edit</button>
                       <!-- Modal Edit -->
-                      <div class="modal fade" id="edit{{$d->id_kelas}}">
+                      <div class="modal fade" id="edit{{$d->tahun_id}}">
                         <div class="modal-dialog">
                         <div class="modal-content border-secondary">
                             <div class="modal-header bg-secondary">
@@ -137,46 +133,17 @@
                             </button>
                             </div>
                             <div class="modal-body">
-                                <form action=<?= route('Kelas.Update'); ?> method="post">
-                                <input type="hidden" name="id" value="{{$d->id_kelas}}">
+                                <form action=<?= route('Tahun.Update'); ?> method="post">
+                                <input type="hidden" name="id" value="{{$d->tahun_id}}">
                                 @csrf
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                     <span class="input-group-text">Tahun</span>
                                     </div>
-                                    <select id="tahun_id" class="form-control @error('tahun_id') is-invalid @enderror" name="tahunajaran_id">
-                                    <option>Pilih Tahun</option>
-                                    @foreach($tahunajaran as $item)
-                                    <option <?php if ($item->tahun_id == $d->tahun_id){echo 'selected';} ?> value="{{$item->tahun_id}}">{{$item->tahun}}</option>
-                                    @endforeach
-                                    </select>   
+                                    <input id="tahun" type="text" class="form-control @error('tahun') is-invalid @enderror" name="tahun" value="{{$d->tahun}}">
                                 </div>
 
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text">Group Kelas</span>
-                                </div>
-                                <select id="tahun_id" class="form-control @error('tahun_id') is-invalid @enderror" name="group_kelas_id">
-                                <option>Pilih Group Kelas</option>
-                                @foreach($group_kelas as $item)
-                                <option <?php if ($item->group_kelas_id == $d->group_kelas_id){echo 'selected';} ?> value="{{$item->group_kelas_id}}">{{$item->nama_group_kelas}}</option>
-                                @endforeach
-                                </select>  
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                <span class="input-group-text">Kelas</span>
-                                </div>
-                                <select type="text" class="form-control @error('agama') is-invalid @enderror" name="kelas_name" >
-                                <option >Pilih Kelas</option>
-                                <option <?php if ($d->kelas_name == "A"){echo 'selected';} ?> value="A">A</option>
-                                <option <?php if ($d->kelas_name == "B"){echo 'selected';} ?> value="B">B</option>
-                                <option <?php if ($d->kelas_name == "C"){echo 'selected';} ?> value="C">C</option>
-                                <option <?php if ($d->kelas_name == "D"){echo 'selected';} ?> value="D">D</option>
-                                <option <?php if ($d->kelas_name == "E"){echo 'selected';} ?> value="E">E</option>
-                                </select>
-                            </div>
+                            
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-inverse-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
@@ -189,9 +156,9 @@
                     
                     <!--End Modal -->
                       <?php } ?>
-                      <?php if($d->id_kelas != 1){
-                      if($all_access->where('name','Kelas-Delete')->count() > 0){ ?>
-                      <a href="<?= url('kelas/delete/'.$d->id_kelas);?>" class="btn btn-danger btn-xs waves-effect waves-light"><i class="fa fa-trash"></i> Delete</a>
+                      <?php if($d->tahun_id != 1){
+                      if($all_access->where('name','Tahun-Delete')->count() > 0){ ?>
+                      <a href="<?= url('tahun/delete/'.$d->tahun_id);?>" class="btn btn-danger btn-xs waves-effect waves-light"><i class="fa fa-trash"></i> Delete</a>
                       <?php } } ?>
                       </td>
                     </tr>
@@ -221,59 +188,31 @@
     </div>
 </div>
 <!--End Modal -->
-<?php if($all_access->where('name','Kelas-Add')->count() > 0){ ?>
+<?php if($all_access->where('name','Tahun-Add')->count() > 0){ ?>
     <div class="modal fade" id="addModal">
     <div class="modal-dialog">
     <div class="modal-content border-secondary">
         <div class="modal-header bg-secondary">
-        <h5 class="modal-title text-white">  Tambah Data Siswa</h5>
+        <h5 class="modal-title text-white">  Tambah Data Tahun</h5>
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
         <div class="modal-body">
-            <form action=<?= url('kelas/create'); ?> method="post">
+            <form action=<?= url('tahun/create'); ?> method="post">
             @csrf
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                 <span class="input-group-text">Tahun</span>
                 </div>
-                <select id="tahun_id" class="form-control @error('tahun_id') is-invalid @enderror" name="tahunajaran_id">
-                <option>Pilih Tahun</option>
-                @foreach($tahunajaran as $item)
-                <option value="{{$item->tahun_id}}">{{$item->tahun}}</option>
-                @endforeach
+                <input id="tahun" type="text" class="form-control @error('tahun') is-invalid @enderror" name="tahun">
                 </select>   
-                </div>
+            </div>
 
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Group Kelas</span>
-                  </div>
-                  <select id="tahun_id" class="form-control @error('tahun_id') is-invalid @enderror" name="group_kelas_id">
-                <option>Pilih Group Kelas</option>
-                @foreach($group_kelas as $item)
-                <option value="{{$item->group_kelas_id}}">{{$item->nama_group_kelas}}</option>
-                @endforeach
-                </select>  
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Kelas</span>
-                  </div>
-                  <select type="text" class="form-control @error('agama') is-invalid @enderror" name="kelas_name" >
-                  <option >Pilih Kelas</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                  <option value="E">E</option>
-                  </select>
-                </div>
-                @error('access_name')
-                    <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
-                @enderror
+            
+            @error('access_name')
+                <p style="color:red;font-size:9px;margin-left:100px;">{{ $message }}</p>
+            @enderror
                 
                
         

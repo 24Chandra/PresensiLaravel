@@ -10,7 +10,7 @@ use Alert;
 use Redirect;
 use Illuminate\Support\Facades\Input;
 
-class KelasController extends Controller
+class TahunController extends Controller
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class KelasController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'Kelas-View')->count() > 0) {
+        if (!$access->where('name', 'Tahun-View')->count() > 0) {
             return view('errors.403');
         }
 
@@ -41,28 +41,17 @@ class KelasController extends Controller
     }
 
     if ($cari == null) {
-      $query = DB::table('kelas')
-      ->join('tahunajaran', 'kelas.tahunajaran_id','=','tahunajaran.tahun_id')
-      ->join('group_kelas', 'kelas.group_kelas_id','=','group_kelas.group_kelas_id')
-      ->orderBy('id_kelas', 'desc')->paginate($rowpage);
+      $query = DB::table('tahunajaran')
+      ->orderBy('tahun_id', 'desc')->paginate($rowpage);
     } else {
-      $query = DB::table('kelas')->where('id_kelas', 'LIKE', '%' . $cari . '%')->orwhere('tahun_ajaran', 'LIKE', '%' . $cari . '%')->orderBy('id_kelas', 'desc')->paginate($rowpage);
+      $query = DB::table('tahunajaran')->where('tahun_id', 'LIKE', '%' . $cari . '%')->orwhere('tahun', 'LIKE', '%' . $cari . '%')->orderBy('tahun_id', 'desc')->paginate($rowpage);
     }
     $query->appends(['search' => $cari, 'sort' => $rowpage]);
-
-
-    $tahunajaran = DB::table('tahunajaran')
-     ->get();
-
-     
-    $group_kelas = DB::table('group_kelas')
-    ->get();
-     //dd($tahunajaran);
 
     
 
 
-    return view('master.kelas.index',compact('tahunajaran'),compact('group_kelas'))
+    return view('master.tahun.index')
         ->with('rowpage', $rowpage)
         ->with('cari', $cari)
         ->with('data', $query)
@@ -86,29 +75,21 @@ class KelasController extends Controller
 
         if (!$access->where('name', 'Kelas-Add')->count() > 0) {
             return view('errors.403');
-        }$tahunajaran_id = $req->tahunajaran_id;
-        $group_kelas_id = $req->group_kelas_id;
-        $kelas_name = $req->kelas_name;
+        }$tahun = $req->tahun;
         $rules =  [
-                     'tahunajaran_id' => 'required',
-                     'group_kelas_id' => 'required',
-                     'kelas_name' => 'required',
+                     'tahun' => 'required',
                  ];
          $customMessages = [
-             'tahunajaran_id.required' => 'Nama Tipe Sewa Wajib Diisi',
-             'group_kelas_id.required' => 'Tipe Sewa ID Wajib Diisi',
-             'kelas_name.required' => 'kelas Wajib Diisi',
+             'tahun.required' => 'Tahun Angkatan Wajib Diisi',
          ];
         $this->validate($req,$rules,$customMessages);
         $data = [
-         'tahunajaran_id' => $tahunajaran_id,
-         'group_kelas_id' => $group_kelas_id,
-         'kelas_name' => $kelas_name
+         'tahun' => $tahun
         ];
 
     //    Proses
-    DB::table('kelas')->insert($data);
-    Alert::success('Menambahkan Data Kelas','Berhasil');
+    DB::table('tahunajaran')->insert($data);
+    Alert::success('Menambahkan Data tahun angkatan','Berhasil');
     return Redirect::back();
     }
 
@@ -126,14 +107,10 @@ class KelasController extends Controller
         if (!$access->where('name', 'Kelas-Edit')->count() > 0) {
             return view('errors.403');
         }
-        $id_kelas = $req->id_kelas;
-        $tahunajaran_id = $req->tahunajaran_id;
-        $group_kelas_id = $req->group_kelas_id;
-        $kelas_name = $req->kelas_name;
+        $tahun_id = $req->tahun_id;
+        $tahun = $req->tahun;
         $data = [
-            'tahunajaran_id' => $tahunajaran_id,
-            'group_kelas_id' => $group_kelas_id,
-            'kelas_name' => $kelas_name
+            'tahun' => $tahun
            ];
 
             // Chek data
@@ -142,7 +119,7 @@ class KelasController extends Controller
             // dd($req->all());
 
     //    Proses
-    DB::table('kelas')->where('id_kelas', $id_kelas)->update($data);
+    DB::table('tahunajaran')->where('tahun_id', $tahun_id)->update($data);
     Alert::success('Perubahan data Kelas telah dilakukan.','Berhasil');
     return Redirect::back();
     }
@@ -158,11 +135,11 @@ class KelasController extends Controller
             ->select('access_name.name')
             ->get();
 
-        if (!$access->where('name', 'Kelas-Delete')->count() > 0) {
+        if (!$access->where('name', 'Tahun-Delete')->count() > 0) {
             return view('errors.403');
         }
 
-        DB::table('kelas')->where('id_kelas', $req->id)->delete();
+        DB::table('tahunajaran')->where('tahun_id', $req->id)->delete();
         Alert::success('Terimakasih Anda Berhasil Menghapus Data Kelas','Berhasil');
         return Redirect::back();
 }

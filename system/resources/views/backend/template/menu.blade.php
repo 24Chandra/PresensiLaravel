@@ -98,7 +98,8 @@
 						<li class="nav-item nav-item-submenu <?php if (
                                     Request::route()->getName() == 'Siswa' ||
 									Request::route()->getName() == 'Guru'  ||
-									Request::route()->getName() == 'Kelas'
+									Request::route()->getName() == 'Kelas' ||
+									Request::route()->getName() == 'Tahun'
                                     ) { echo 'nav-item-expanded nav-item-open';} ?>">
 							<a href="#" class="nav-link"><i class="icon-lock"></i> <span>Master</span></a>
 
@@ -117,6 +118,11 @@
                                     Request::route()->getName() == 'Kelas'
                                     ) { echo 'active';} ?>">
                                 Data Kelas</a>
+                                </li>
+								<li class="nav-item"><a href="{{url('/tahun')}}" class="nav-link <?php if (
+                                    Request::route()->getName() == 'Tahun'
+                                    ) { echo 'active';} ?>">
+                                Data Tahun</a>
                                 </li>
 							</ul>
 						</li>

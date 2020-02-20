@@ -121,6 +121,20 @@
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Guru-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Guru-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                             </tr>
+                            <tr>
+                                <td>Kelas</td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Kelas-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Kelas-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Kelas-Add')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Kelas-Add')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Kelas-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Kelas-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Kelas-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Kelas-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                            </tr>
+                            <tr>
+                                <td>Tahun</td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Tahun-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Tahun-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Tahun-Add')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Tahun-Add')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Tahun-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Tahun-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Tahun-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Tahun-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                            </tr>
                         </tbody>
                     </table>
                         </div>
