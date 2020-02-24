@@ -72,6 +72,7 @@
                     <ul class="nav nav-tabs nav-tabs-highlight">
                         <li class="nav-item"><a href="#auth" class="nav-link active" data-toggle="tab">Autentication</a></li>
                         <li class="nav-item"><a href="#data" class="nav-link" data-toggle="tab">Master Data</a></li>
+                        <li class="nav-item"><a href="#transaksi" class="nav-link" data-toggle="tab">Transaksi</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="auth">
@@ -107,6 +108,22 @@
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','User-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','User-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','User-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','User-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
                             </tr>
+                        </tbody>
+                    </table>
+                        </div>
+
+                        <div class="tab-pane fade" id="data">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                            <tr>
+                                    <th style="width:50px; text-align:center;">Menu</th>
+                                    <th style="width:75px; text-align:center;">Lihat</th>
+                                    <th style="width:75px; text-align:center;">Tambah</th>
+                                    <th style="width:75px; text-align:center;">Edit</th>
+                                    <th style="width:75px; text-align:center;">Hapus</th>
+                                </tr>
+                            <thead>
+                            <tbody>
                             <tr>
                                 <td>Siswa</td>
                                 <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Siswa-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Siswa-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
@@ -138,10 +155,28 @@
                         </tbody>
                     </table>
                         </div>
-
-                        <div class="tab-pane fade" id="data">
-                            Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid laeggin.
-                        </div>
+                            <div class="tab-pane fade" id="transaksi">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                                <th style="width:50px; text-align:center;">Menu</th>
+                                                <th style="width:75px; text-align:center;">Lihat</th>
+                                                <th style="width:75px; text-align:center;">Tambah</th>
+                                                <th style="width:75px; text-align:center;">Edit</th>
+                                                <th style="width:75px; text-align:center;">Hapus</th>
+                                            </tr>
+                                        <thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Absensi</td>
+                                            <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Absensi-View')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Absensi-View')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                            <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Absensi-Add')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Absensi-Add')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                            <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Absensi-Edit')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Absensi-Edit')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                            <td style="text-align:center;"><input type="checkbox" name="selectedRoles[]" value="{{$RoleList->where('name','Absensi-Delete')->first()->access_id}}" <?php if($UsedRoles->where('access_id',$RoleList->where('name','Absensi-Delete')->first()->access_id)->first() != null){echo "checked";} ?>></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                     </div>
                     

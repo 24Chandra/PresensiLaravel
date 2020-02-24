@@ -72,3 +72,11 @@ Route::group(['prefix' => '/guru'], function()
     Route::post('/update', 'Master\\TahunController@update')->name('Tahun.Update');
     Route::get('/delete/{id}', 'Master\\TahunController@delete');
    });
+  Route::group(['prefix' => '/absensi'], function()
+  {
+    Route::get('/', 'Transaksi\\AbsensiController@index')->name('Absensi');
+    Route::get('/hadir/{Nis}', 'Transaksi\\AbsensiController@hadir');
+    Route::post('/tidak_hadir', 'Transaksi\\AbsensiController@tidak_hadir')->name('Absensi');
+    Route::get('/daftar_hadir', 'Transaksi\\AbsensiController@daftar_hadir')->name('Daftar_Hadir');
+    Route::get('/delete/{id}', 'Transaksi\\AbsensiController@delete');
+   });

@@ -52,6 +52,8 @@
 
 	 $siswa = $access->where('name', 'Siswa-View')->count();
 	 $guru = $access->where('name', 'Guru-View')->count();
+	 $absensi = $access->where('name', 'Absensi-View')->count();
+	 $kelas = $access->where('name', 'Absensi-View')->count();
 
 
 ?>
@@ -94,14 +96,14 @@
 						<!-- /main -->
 
 						<!-- Data -->
-						<?php if($siswa > 0){?>
+						<?php if($siswa > 0 || $kelas > 0 || $guru > 0 || $tahun > 0 ){?>
 						<li class="nav-item nav-item-submenu <?php if (
                                     Request::route()->getName() == 'Siswa' ||
 									Request::route()->getName() == 'Guru'  ||
 									Request::route()->getName() == 'Kelas' ||
 									Request::route()->getName() == 'Tahun'
                                     ) { echo 'nav-item-expanded nav-item-open';} ?>">
-							<a href="#" class="nav-link"><i class="icon-lock"></i> <span>Master</span></a>
+							<a href="#" class="nav-link"><i class="icon-books"></i> <span>Master</span></a>
 
 							<ul class="nav nav-group-sub" data-submenu-title="Layouts">
 								<li class="nav-item"><a href="{{url('/siswa')}}" class="nav-link <?php if (
@@ -123,6 +125,27 @@
                                     Request::route()->getName() == 'Tahun'
                                     ) { echo 'active';} ?>">
                                 Data Tahun</a>
+                                </li>
+							</ul>
+						</li>
+                        <?php } ?>
+						<?php if($absensi > 0){?>
+						<li class="nav-item nav-item-submenu <?php if (
+                                    Request::route()->getName() == 'Absensi' ||
+                                    Request::route()->getName() == 'Daftar_Hadir' 
+                                    ) { echo 'nav-item-expanded nav-item-open';} ?>">
+							<a href="#" class="nav-link"><i class="icon-reading"></i> <span>Transaksi</span></a>
+
+							<ul class="nav nav-group-sub" data-submenu-title="Layouts">
+								<li class="nav-item"><a href="{{url('/absensi')}}" class="nav-link <?php if (
+                                    Request::route()->getName() == 'Absensi'
+                                    ) { echo 'active';} ?>">
+                               Absensi</a>
+                                </li>
+								<li class="nav-item"><a href="{{url('/absensi/daftar_hadir')}}" class="nav-link <?php if (
+                                    Request::route()->getName() == 'Daftar_Hadir'
+                                    ) { echo 'active';} ?>">
+                                Daftar Hadir</a>
                                 </li>
 							</ul>
 						</li>
